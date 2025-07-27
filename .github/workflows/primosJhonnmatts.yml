@@ -3,25 +3,346 @@
 <head>
   <meta charset="UTF-8">
   <title>Primos JhonnMatts</title>
+  <meta name="viewport" content="width=device-width,initial-scale=1">
   <style>
     body {
-      background-color: #fefefe;
-      font-family: Arial, sans-serif;
-      text-align: center;
-      padding: 50px;
+      background: linear-gradient(135deg, #25d366 0%, #000 55%, #ffe600 100%);
+      font-family: 'Segoe UI', Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+      min-height: 100vh;
+      color: #ffe600;
+    }
+    .container {
+      background: rgba(34,34,34,0.75);
+      padding: 40px 20px 20px 20px;
+      max-width: 900px;
+      margin: auto;
+      box-shadow: 0 4px 24px 0 rgba(0,0,0,0.1);
+      border-radius: 18px;
+    }
+    .logo-img {
+      width: 120px;
+      height: auto;
+      margin-bottom: 12px;
+      border-radius: 14px;
+      box-shadow: 0 2px 8px #0003;
+      background: #fff;
+      object-fit: contain;
+      display: block;
+      margin-left: auto;
+      margin-right: auto;
     }
     h1 {
-      color: #2c3e50;
+      color: #25d366;
+      margin-bottom: 10px;
+      text-shadow: 1px 2px 10px #000, 0 0 2px #ffe600;
+      font-size: 2.2em;
+      letter-spacing: 1px;
     }
-    p {
-      font-size: 20px;
-      color: #555;
+    h2 {
+      color: #ffe600;
+      margin-top: 40px;
+      margin-bottom: 15px;
+      text-shadow: 1px 1px 4px #000, 0 0 2px #25d366;
+    }
+    .cta-btn {
+      background: linear-gradient(90deg, #25d366 70%, #ffe600 100%);
+      color: #000;
+      border: none;
+      padding: 15px 35px;
+      font-size: 18px;
+      border-radius: 8px;
+      cursor: pointer;
+      margin: 25px 10px 20px 10px;
+      box-shadow: 0 2px 8px #0004;
+      font-weight: bold;
+      transition: background 0.3s, color 0.3s;
+      outline: none;
+    }
+    .cta-btn:hover {
+      background: linear-gradient(90deg, #ffe600 60%, #25d366 100%);
+      color: #222;
+    }
+    .form-overlay {
+      position: fixed;
+      top: 0; left: 0; width: 100vw; height: 100vh;
+      background: rgba(44,62,80,0.8);
+      display: none;
+      justify-content: center;
+      align-items: center;
+      z-index: 1000;
+    }
+    .form-box, .admin-box {
+      background: #222c;
+      padding: 28px 18px;
+      border-radius: 14px;
+      box-shadow: 0 4px 25px #0008;
+      max-width: 340px;
+      width: 100%;
+      text-align: left;
+      position: relative;
+      border: 2px solid #ffe600;
+      color: #ffe600;
+    }
+    .form-box h3, .admin-box h3 {
+      color: #ffe600;
+      margin-top: 0;
+      text-align: center;
+      text-shadow: 1px 1px 4px #25d366;
+      font-size: 1.35em;
+    }
+    .form-box label, .admin-box label {
+      display: block;
+      margin-top: 13px;
+      font-weight: bold;
+      color: #25d366;
+      font-size: 1em;
+    }
+    .form-box input, .admin-box input {
+      width: 100%;
+      padding: 7px;
+      font-size: 15px;
+      border-radius: 5px;
+      border: 1px solid #ffe600;
+      margin-top: 5px;
+      background: #111;
+      color: #ffe600;
+      outline: none;
+    }
+    .form-box .close-btn, .admin-box .close-btn {
+      position: absolute;top: 15px;right: 18px;background: #ffe600;border: none;font-size: 18px;border-radius: 100%;width: 30px;height: 30px;cursor:pointer;color:#222;
+    }
+    .form-box .submit-btn, .admin-box .submit-btn {
+      background: linear-gradient(90deg, #25d366 70%, #ffe600 100%);
+      color: #000;
+      border: none;
+      padding: 10px 22px;
+      border-radius: 6px;
+      font-size: 16px;
+      cursor: pointer;
+      margin-top: 22px;
+      width: 100%;
+      font-weight: bold;
+    }
+    .form-box .submit-btn:hover, .admin-box .submit-btn:hover { background: linear-gradient(90deg,#ffe600 70%,#25d366 100%); }
+    .error-msg, .admin-error { color: #e4405f; font-size: 15px; margin-top: 9px; }
+    .success-msg, .admin-success { color: #25d366; font-size: 16px; margin-top: 9px; font-weight: bold;}
+    .commission-view {
+      background: #111c;
+      border: 2px solid #25d366;
+      border-radius: 10px;
+      padding: 20px;
+      margin: 30px auto 0 auto;
+      width: 90%;
+      max-width: 370px;
+      color: #ffe600;
+      box-shadow: 0 2px 12px #0008;
+    }
+    .commission-view h4 { color: #25d366; margin-bottom: 10px;}
+    .commission-view p { color: #ffe600; font-size: 18px; }
+    .inactive-msg { color: #e4405f; font-size: 17px; }
+    .panel-box {
+      margin: 40px auto 0 auto; max-width: 600px;
+      background: #222c;
+      border-radius: 12px;
+      border: 2px solid #ffe600;
+      padding: 25px 25px 10px 25px;
+      box-shadow: 0 2px 12px #0008;
+      color: #25d366;
+    }
+    .panel-box h3 { color: #ffe600; margin-bottom: 10px; text-shadow: 1px 1px 4px #25d366;}
+    .panel-box p { color: #ffe600; font-size: 17px; margin-bottom: 15px; }
+    .advisor-box {
+      background: #111c;
+      border: 2px solid #25d366;
+      border-radius: 10px;
+      max-width: 370px;
+      margin: 40px auto 0 auto;
+      padding: 20px;
+      box-shadow: 0 2px 12px #0008;
+      color: #ffe600;
+    }
+    .advisor-box h3 { color: #ffe600; margin-bottom: 8px;text-shadow: 1px 1px 4px #25d366;}
+    .advisor-box p { color: #25d366; font-size: 17px; margin: 7px 0;}
+    .advisor-box a { color: #ffe600; text-decoration: underline;}
+    .videos-box {
+      background: #222c;
+      border: 2px solid #ffe600;
+      border-radius: 10px;
+      max-width: 650px;
+      margin: 40px auto 0 auto;
+      padding: 25px;
+      color: #ffe600;
+      box-shadow: 0 2px 12px #0008;
+    }
+    .videos-box h3 { color: #25d366; margin-bottom: 18px;text-shadow: 1px 1px 4px #ffe600;}
+    .videos-box iframe {
+      margin-bottom: 15px;
+      border-radius: 8px;
+      box-shadow: 0 2px 12px #0008;
+      width: 100%;
+      max-width: 560px;
+      height: 315px;
+      border: 2px solid #25d366;
+      background: #000;
+    }
+    .videos-box p { color: #ffe600; }
+    @media (max-width:800px){ .panel-box,.videos-box{width:98vw;} .advisor-box{width:96vw;} }
+    @media (max-width:600px){
+      .videos-box iframe{max-width:99vw;height:200px;}
+      .container { padding: 20px 2vw; }
+      h1 { font-size: 1.5em; }
     }
   </style>
+  <script>
+    function openForm() {
+      document.getElementById('formOverlay').style.display = 'flex';
+      document.getElementById('regForm').reset();
+      document.getElementById('errorMsg').textContent = '';
+      document.getElementById('successMsg').textContent = '';
+      document.getElementById('commissionBlock').style.display = 'none';
+    }
+    function closeForm() {
+      document.getElementById('formOverlay').style.display = 'none';
+    }
+    function handleRegister(e) {
+      e.preventDefault();
+      var nombre = document.getElementById('nombre').value.trim();
+      var cedula = document.getElementById('cedula').value.trim();
+      var rut = document.getElementById('rut').value.trim();
+      var email = document.getElementById('email').value.trim();
+      var error = '';
+      if (!nombre || !cedula || !email) {
+        error = 'Por favor, completa todos los campos obligatorios.';
+      } else if (!rut) {
+        error = 'Para activar funciones de corresponsal, ingresa tu RUT.';
+      }
+      document.getElementById('errorMsg').textContent = error;
+      if (!error) {
+        document.getElementById('successMsg').textContent = '¡Registro exitoso!';
+        document.getElementById('commissionBlock').style.display = 'block';
+        document.getElementById('commissionRut').textContent = rut ? rut : 'No registrado';
+        document.getElementById('commissionName').textContent = nombre;
+        document.getElementById('commissionCedula').textContent = cedula;
+        document.getElementById('commissionEmail').textContent = email;
+        document.getElementById('commissionActive').style.display = rut ? 'block' : 'none';
+        document.getElementById('commissionInactive').style.display = rut ? 'none' : 'block';
+      }
+    }
+    function openAdmin() {
+      document.getElementById('adminOverlay').style.display = 'flex';
+      document.getElementById('adminForm').reset();
+      document.getElementById('adminError').textContent = '';
+      document.getElementById('adminSuccess').textContent = '';
+      document.getElementById('adminResult').textContent = '';
+    }
+    function closeAdmin() {
+      document.getElementById('adminOverlay').style.display = 'none';
+    }
+    function handleAdmin(e) {
+      e.preventDefault();
+      const vendedor = parseFloat(document.getElementById('adminVendedor').value);
+      const distribuidor = parseFloat(document.getElementById('adminDistribuidor').value);
+      let error = '';
+      if (isNaN(vendedor) || isNaN(distribuidor)) {
+        error = 'Por favor ingresa valores válidos para ambas comisiones.';
+      } else if (vendedor < 0 || distribuidor < 0 || vendedor > 100 || distribuidor > 100) {
+        error = 'Las comisiones deben estar entre 0 y 100%.';
+      }
+      document.getElementById('adminError').textContent = error;
+      if (!error) {
+        document.getElementById('adminSuccess').textContent = '¡Comisiones actualizadas!';
+        document.getElementById('adminResult').innerHTML = `Vendedor: <strong>${vendedor}%</strong> &nbsp; Distribuidor: <strong>${distribuidor}%</strong>`;
+      }
+    }
+  </script>
 </head>
 <body>
-  <h1>Bienvenidos a Primos JhonnMatts</h1>
-  <p>Tu app de recargas, pagos, pines y mucho más</p>
-  <p>💳📲 Conéctate con nosotros y sé parte del cambio digital</p>
+  <div class="container">
+    <!-- LOGO PROFESIONAL -->
+    <img src="logo.png" alt="Logo Primos JhonnMatts" class="logo-img">
+    <h1>Bienvenidos a Primos JhonnMatts</h1>
+    <p style="color:#ffe600;font-weight:bold;">Tu app de recargas, pagos, pines y mucho más</p>
+    <button class="cta-btn" onclick="openForm()">Registro de Usuario</button>
+    <button class="cta-btn" onclick="openAdmin()">Panel Administrador (Comisiones)</button>
+
+    <div class="advisor-box">
+      <h3>Asesor Personal</h3>
+      <p><b>Jhonnattan Navarro</b></p>
+      <p>📱 323 410 4753</p>
+      <p>✉️ <a href="mailto:jhonnmatts.bemovil@gmail.com">jhonnmatts.bemovil@gmail.com</a></p>
+    </div>
+
+    <h2>Usuarios y Comisiones</h2>
+    <p style="color:#25d366;">Regístrate para acceder a tus servicios y ver tus comisiones.<br>
+    <strong style="color:#ffe600;">Recuerda: Si no tienes RUT, no se activan las funciones de corresponsal.</strong></p>
+
+    <div class="commission-view" id="commissionBlock" style="display:none;">
+      <h4>Tu información y comisiones</h4>
+      <p><b>Nombre:</b> <span id="commissionName"></span></p>
+      <p><b>Cédula:</b> <span id="commissionCedula"></span></p>
+      <p><b>Email:</b> <span id="commissionEmail"></span></p>
+      <p><b>RUT:</b> <span id="commissionRut"></span></p>
+      <div id="commissionActive" style="display:none;">
+        <p><b>Comisión Vendedor:</b> 7%</p>
+        <p><b>Comisión Distribuidor:</b> 2%</p>
+        <p style="color:#25d366;"><b>¡Funciones de corresponsal activas!</b></p>
+      </div>
+      <div id="commissionInactive" class="inactive-msg" style="display:none;">
+        Sin RUT: <b>Las funciones de corresponsal están desactivadas.</b>
+      </div>
+    </div>
+
+    <div class="panel-box">
+      <h3>Panel de Edición de Comisiones (Administrador)</h3>
+      <p>Como administrador, puedes modificar fácilmente las comisiones asignadas a vendedores y distribuidores.<br>
+      Ingresa el porcentaje deseado y actualízalo para cada tipo de usuario.<br>
+      <em style="color:#25d366;">¡Así mantienes tu red motivada y alineada con tus objetivos de negocio!</em></p>
+    </div>
+
+    <div class="videos-box">
+      <h3>Videos: Cómo utilizar la página</h3>
+      <!-- Ejemplo de video de YouTube, puedes poner tus propios enlaces -->
+      <iframe src="https://www.youtube.com/embed/BXqUH86F-kA" title="Tutorial Primos JhonnMatts" allowfullscreen></iframe>
+      <iframe src="https://www.youtube.com/embed/dQw4w9WgXcQ" title="Ejemplo de registro" allowfullscreen></iframe>
+      <p>¿Quieres más tutoriales? Solicítalos a tu asesor.</p>
+    </div>
+
+    <!-- Formulario emergente registro -->
+    <div class="form-overlay" id="formOverlay">
+      <form class="form-box" id="regForm" onsubmit="handleRegister(event)">
+        <button type="button" class="close-btn" onclick="closeForm()">×</button>
+        <h3>Registro de Usuario</h3>
+        <label for="nombre">Nombre completo *</label>
+        <input type="text" id="nombre" required>
+        <label for="cedula">Cédula *</label>
+        <input type="text" id="cedula" required>
+        <label for="rut">RUT <span style="color:#e4405f;">(obligatorio para corresponsal)</span></label>
+        <input type="text" id="rut" placeholder="Ej: 12345678-9">
+        <label for="email">Correo electrónico *</label>
+        <input type="email" id="email" required>
+        <div id="errorMsg" class="error-msg"></div>
+        <div id="successMsg" class="success-msg"></div>
+        <button type="submit" class="submit-btn">Registrar</button>
+      </form>
+    </div>
+
+    <!-- Panel emergente administrador comisiones -->
+    <div class="form-overlay" id="adminOverlay">
+      <form class="admin-box" id="adminForm" onsubmit="handleAdmin(event)">
+        <button type="button" class="close-btn" onclick="closeAdmin()">×</button>
+        <h3>Editar Comisiones</h3>
+        <label for="adminVendedor">Comisión Vendedor (%)</label>
+        <input type="number" id="adminVendedor" min="0" max="100" placeholder="Ej: 7" required>
+        <label for="adminDistribuidor">Comisión Distribuidor (%)</label>
+        <input type="number" id="adminDistribuidor" min="0" max="100" placeholder="Ej: 2" required>
+        <div id="adminError" class="admin-error"></div>
+        <div id="adminSuccess" class="admin-success"></div>
+        <div id="adminResult"></div>
+        <button type="submit" class="submit-btn">Actualizar Comisiones</button>
+      </form>
+    </div>
+  </div>
 </body>
 </html>
